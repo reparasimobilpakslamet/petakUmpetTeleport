@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# petakUmpetTeleport
-Plugin Minecraft 1.21.11 for Youtube Content
-=======
 # 🎮 **Petak Umpet Teleport - Minecraft Plugin**
 
 **Version**: 1.0-release  
@@ -115,12 +111,12 @@ cp target/petakUmpetTeleport-1.0-release.jar /path/to/server/plugins/
 ### **5 Menit Setup**
 
 ```bash
-1. /regis Player1
-2. /regis Player2
-3. /regis Player3
-4. /regis Player4
-5. /regis Player5
-6. /regis Player6
+1. /reg Player1
+2. /reg Player2
+3. /reg Player3
+4. /reg Player4
+5. /reg Player5
+6. /reg Player6
    ↓
 7. /gacha              # Pilih hunter secara random
    ↓
@@ -142,13 +138,13 @@ cp target/petakUmpetTeleport-1.0-release.jar /path/to/server/plugins/
 
 ### **Admin Commands**
 
-#### **1. /regis <PlayerName>**
+#### **1. /reg <PlayerName>**
 Mendaftarkan player untuk tournament.
 
 ```bash
-/regis Steve
-/regis Alex
-/regis Notch
+/reg Steve
+/reg Alex
+/reg Notch
 ```
 
 **Requirements**: OP status  
@@ -157,11 +153,11 @@ Mendaftarkan player untuk tournament.
 
 ---
 
-#### **2. /unregis <PlayerName>**
+#### **2. /unreg <PlayerName>**
 Membatalkan registrasi player (jika disconnect atau emergency).
 
 ```bash
-/unregis Steve
+/unreg Steve
 ```
 
 **Use Case**: Player DC/mati listrik, perlu dihapus dari daftar  
@@ -334,9 +330,9 @@ Menampilkan informasi lengkap 5 tipe teleport.
 ### **Game Phases**
 
 #### **Phase 1: Registration**
-- Admin regis semua players dengan `/regis`
+- Admin regis semua players dengan `/reg`
 - Bisa check dengan `/listplayer`
-- Bisa unregis dengan `/unregis` jika ada yang DC
+- Bisa unregis dengan `/unreg` jika ada yang DC
 
 #### **Phase 2: Hunter Selection**
 - Admin jalankan `/gacha` untuk random select hunter
@@ -655,7 +651,7 @@ if (attacker is HUNTER && victim is GHOST) {
 
 ```
 ADMIN SETUP PHASE
-├─ /regis Player1-6
+├─ /reg Player1-6
 ├─ /listplayer (verify)
 └─ Ready to start
 
@@ -768,7 +764,7 @@ FINAL LEADERBOARD (Example):
 **Solution**: 
 ```bash
 /endgame
-/regis [new_player]
+/reg [new_player]
 /gacha
 /start        # Try again
 ```
@@ -868,12 +864,12 @@ FINAL LEADERBOARD (Example):
 ### **Example 1: Simple 1-Round Game**
 
 ```
-/regis Alice
-/regis Bob
-/regis Charlie
-/regis Diana
-/regis Eve
-/regis Frank
+/reg Alice
+/reg Bob
+/reg Charlie
+/reg Diana
+/reg Eve
+/reg Frank
 
 /gacha           # Bob selected as Hunter
 
