@@ -1,5 +1,8 @@
 package yt.corazonid.petakUmpetTeleport;
 
+import java.util.List;
+import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -8,10 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
-import yt.corazonid.petakUmpetTeleport.PetakUmpetTeleport;
-
-import java.util.List;
-import java.util.Random;
 
 public class GameCommands implements CommandExecutor {
     private final PetakUmpetTeleport plugin;
@@ -101,11 +100,21 @@ public class GameCommands implements CommandExecutor {
 
         // BUGFIX #3: Reset eliminatedPlayers dan ghostPlayers untuk ronde baru
         plugin.getGameListener().resetForNewRound();
+        org.bukkit.scoreboard.Team nameTeam = plugin.getNoNameTagTeam();
+
+        for (Player p : gm.getParticipants()) {
+            if (p != null && p.isOnline()) {
+                    p.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.SATURATION, 99999, 1, true, false));
+                    if (nameTeam != null) {
+                        nameTeam.addEntry(p.getName());
+                }
+            }
+        }
 
         Player hunter = gm.getHunter();
 
         new BukkitRunnable() {
-            int count = 60;
+            int count = 30;
             @Override
             public void run() {
                 if (count > 0) {
@@ -138,6 +147,13 @@ public class GameCommands implements CommandExecutor {
                         hunter.removePotionEffect(org.bukkit.potion.PotionEffectType.SLOWNESS);
                         plugin.getGameListener().giveHunterGear(hunter);
                     }
+                        
+                    for (Player p : gm.getParticipants()) {
+                        if (p != null && p.isOnline()) {
+                            p.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.SATURATION, 99999, 1, true, false));
+                        }
+                    }
+                        
                     Bukkit.broadcastMessage("§c§lHUNTER DILEPASKAN!");
                     new GameLoopTask(plugin).runTaskTimer(plugin, 0L, 20L);
                 }

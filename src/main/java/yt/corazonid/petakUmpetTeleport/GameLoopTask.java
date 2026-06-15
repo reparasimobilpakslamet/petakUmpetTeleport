@@ -1,12 +1,14 @@
 package yt.corazonid.petakUmpetTeleport;
 
+import java.util.Random;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import yt.corazonid.petakUmpetTeleport.PetakUmpetTeleport;
-
-import java.util.Random;
-
 public class GameLoopTask extends BukkitRunnable {
     private final PetakUmpetTeleport plugin;
     private int totalSeconds = 300; // 5 Menit
@@ -21,6 +23,19 @@ public class GameLoopTask extends BukkitRunnable {
         if (!gm.isGameRunning() || totalSeconds <= 0) {
             this.cancel();
             Bukkit.broadcastMessage("§6§lWAKTU HABIS! Game Selesai.");
+            
+            org.bukkit.scoreboard.Team nameTeam = plugin.getNoNameTagTeam();
+            for (Player p : gm.getParticipants()) {
+                if (p != null && p.isOnline()) {
+                    p.removePotionEffect(PotionEffectType.STRENGTH);
+                    p.removePotionEffect(PotionEffectType.SATURATION);
+                    p.getInventory().remove(org.bukkit.Material.NETHERITE_SWORD);
+
+                    if (nameTeam != null && nameTeam.hasEntry(p.getName())) {
+                        nameTeam.removeEntry(p.getName());
+                    }
+                }
+            }
             return;
         }
 
@@ -35,6 +50,19 @@ public class GameLoopTask extends BukkitRunnable {
             triggerTeleport();
         }
 
+        // Glowing Effect untuk hider jika game kurang dari 45 detik sebelum berakhir
+        if (totalSeconds == 45) {
+            Bukkit.broadcastMessage("§9§lPERINGATAN] §fSisa waktu 45 detik, semua Hider yang tersisa akan diberi efek glowing!");
+            java.util.Set<UUID> ghosts = plugin.getGameListener().getGhostPlayers();
+
+            for (Player p : gm.getParticipants()) {
+                if (p != null && p.isOnline() && !p.isDead()) {
+                    if (!p.equals(gm.getHunter()) && !ghosts.contains(p.getUniqueId())) {
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 140, 0, true, false));
+                    }
+                }
+            }
+        }
         totalSeconds--;
     }
 

@@ -1,15 +1,14 @@
 package yt.corazonid.petakUmpetTeleport;
 
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import yt.corazonid.petakUmpetTeleport.PetakUmpetTeleport;
-
-import java.util.Map;
-import java.util.UUID;
 
 public class AdminCommands implements CommandExecutor {
     private final PetakUmpetTeleport plugin;
@@ -24,36 +23,36 @@ public class AdminCommands implements CommandExecutor {
 
         GameManager gm = plugin.getGameManager();
 
-        if (label.equalsIgnoreCase("regis")) {
+        if (label.equalsIgnoreCase("reg")) {
             if (gm.isGameRunning()) {
-                sender.sendMessage("§cTidak bisa melakukan registrasi saat game berlangsung!");
+                sender.sendMessage("§cTidak bisa melakukan register player saat game berlangsung!");
                 return true;
             }
             if (args.length < 1) {
-                sender.sendMessage("§cGunakan: /regis <nama>");
+                sender.sendMessage("§cGunakan: /reg <nama>");
                 return true;
             }
             Player target = Bukkit.getPlayer(args[0]);
             if (target != null) {
-                gm.regis(target);
+                gm.reg(target);
                 sender.sendMessage("§a" + target.getName() + " berhasil terdaftar!");
             } else {
                 sender.sendMessage("§cPlayer tidak online.");
             }
         }
 
-        else if (label.equalsIgnoreCase("unregis")) {
+        else if (label.equalsIgnoreCase("unreg")) {
             if (gm.isGameRunning()) {
-                sender.sendMessage("§cTidak bisa unregis saat game berlangsung!");
+                sender.sendMessage("§cTidak bisa unregiter player saat game berlangsung!");
                 return true;
             }
             if (args.length < 1) {
-                sender.sendMessage("§cGunakan: /unregis <nama>");
+                sender.sendMessage("§cGunakan: /unreg <nama>");
                 return true;
             }
             Player target = Bukkit.getPlayer(args[0]);
             if (target != null) {
-                gm.unregis(target);
+                gm.unreg(target);
                 sender.sendMessage("§e" + target.getName() + " telah dihapus dari daftar.");
             }
         }

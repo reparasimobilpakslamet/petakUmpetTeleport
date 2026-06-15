@@ -1,7 +1,14 @@
 package yt.corazonid.petakUmpetTeleport;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
 import org.bukkit.entity.Player;
-import java.util.*;
 
 public class GameManager {
     private final List<Player> participants = new ArrayList<>();
@@ -11,14 +18,14 @@ public class GameManager {
     private boolean gameRunning = false;
     private int deadCount = 0;
 
-    public void regis(Player p) {
+    public void reg(Player p) {
         if (!participants.contains(p)) {
             participants.add(p);
             scores.putIfAbsent(p.getUniqueId(), 0);
         }
     }
 
-    public void unregis(Player p) {
+    public void unreg(Player p) {
         participants.remove(p);
     }
 
@@ -55,14 +62,11 @@ public class GameManager {
      */
     public int getNextDeathPenalty() {
         deadCount++;
-        int hiderCount = participants.size() - 1; // Total hiders (excluding hunter)
-        // BUGFIX #2: Pastikan scoring terurut sesuai jumlah hider
-        // Dengan 6 player (1 hunter, 5 hider):
-        // Kematian ke-1: -(5-0) = -5
-        // Kematian ke-2: -(5-1) = -4
-        // dst...
+        // Logic dinamis: Penalty mulai dari -(Jumlah Peserta - 1)
+        // Misal peserta 6 (5 hider), maka penalti pertama adalah -5, lalu -4, dst.
+        int hiderCount = participants.size() - 1;
         int penalty = -(hiderCount - (deadCount - 1));
-        return Math.max(penalty, -1); // Minimum penalty adalah -1
+        return (penalty < -1) ? penalty : -1;
     }
 
     public Set<UUID> getPastHunters() { return pastHunters; }

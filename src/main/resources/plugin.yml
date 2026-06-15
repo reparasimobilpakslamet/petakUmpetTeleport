@@ -6,13 +6,13 @@ api-version: '1.21.11'
 load: POSTWORLD
 
 commands:
-  regis:
+  reg:
     description: "Daftarkan player untuk game"
-    usage: "/regis <nama>"
+    usage: "/reg <nama>"
     permission: op
-  unregis:
+  unreg:
     description: "Hapus player dari pendaftaran"
-    usage: "/unregis <nama>"
+    usage: "/unreg <nama>"
     permission: op
   listplayer:
     description: "Lihat daftar player yang terdaftar"
